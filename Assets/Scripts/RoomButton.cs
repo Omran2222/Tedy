@@ -1,10 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Photon.Realtime;
-using Photon.Pun;
 using UnityEngine;
 
 public class RoomButton : MonoBehaviour
@@ -20,7 +16,7 @@ public class RoomButton : MonoBehaviour
         public void JoinRoom()
         {
             PhotonNetwork.JoinRoom(roomInfo.Name);
-            NetworkManager.instance.OpenLoadingPanel("Joining Room...");
+            LobbyManager.instance.OnCreateRoom("");
         }
     
 }

@@ -16,9 +16,7 @@ public class PlayerMovment : MonoBehaviour
     private void Start()
     {
         RgB = GetComponent<Rigidbody>();
-        Vector2 InputMouse = new Vector2(Input.GetAxisRaw("Mouse X"),Input.GetAxisRaw("Mouse Y"));
-        float YRotation = transform.rotation.eulerAngles.y + InputMouse.x;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, YRotation , transform.rotation.eulerAngles.z);
+        
        
     }
     private void Update()

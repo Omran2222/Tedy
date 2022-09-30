@@ -55,7 +55,14 @@ public class playerMovement3D : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHight * -2f * gravity);
            // sm.PlayJumpSound();
         }
+        //Hide Cursor 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
+
+        Vector3 InputMouse = new Vector3(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"),0);
+        float YRotation = transform.rotation.eulerAngles.y + InputMouse.x;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, YRotation, transform.rotation.eulerAngles.z);
     }
     
 
