@@ -7,6 +7,7 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using TMPro;
 using UnityEditor;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -17,11 +18,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject RoomPanel;
     GameObject ErrorPanel;
     GameObject FindRoomPanel;
+    public TMP_InputField UsernameInput;
     public TMP_InputField RoomInputField;
     TextMeshProUGUI LoadingText;
     public TextMeshProUGUI RoomNameText;
     TextMeshProUGUI CreateRoomNameInputText;
     TextMeshProUGUI ErrorText;
+    public TextMeshProUGUI ConnectButtonText;
     [SerializeField] private int maximumPlayers;
     [SerializeField] private bool isVisible = true;
     [SerializeField] private bool isOpen = true;
@@ -46,6 +49,16 @@ public static LobbyManager instance;
         PhotonNetwork.JoinLobby();
     }
     #region PUN Callbacks
+    //When user click on connect button
+    public void OnClickConnect()
+    {
+        if (UsernameInput.text.Length >= 1)
+        {
+            PhotonNetwork.NickName = UsernameInput.text;
+            ConnectButtonText.text = "Connecting...";
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
     public void OnCreateRoom(string RoomName)
     {
         if(RoomInputField.text.Length >= 1)
@@ -74,9 +87,9 @@ public static LobbyManager instance;
 
     public override void OnJoinedLobby()
     {
-        base.OnJoinedLobby();
+        SceneManager.LoadScene("Loading");
         Debug.Log("Join to lobby Done");
-        OnCreateRoom(name);
+        
 
         
     }
