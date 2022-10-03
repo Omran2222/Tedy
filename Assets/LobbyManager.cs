@@ -18,7 +18,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject RoomPanel;
     GameObject ErrorPanel;
     GameObject FindRoomPanel;
+<<<<<<< HEAD
     public TMP_InputField UsernameInput;
+=======
+>>>>>>> TedBranch
     public TMP_InputField RoomInputField;
     TextMeshProUGUI LoadingText;
     public TextMeshProUGUI RoomNameText;
