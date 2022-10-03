@@ -40,7 +40,7 @@ public static LobbyManager instance;
     }
     #endregion
    
-    private void Start()
+     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.JoinLobby();
