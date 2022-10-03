@@ -8,16 +8,18 @@ using TMPro;
 using UnityEditor;
 using System.Runtime.CompilerServices;
 
-public class LobbyManager : Photon.Pun.MonoBehaviourPunCallbacks
+public class LobbyManager : MonoBehaviourPunCallbacks
 {
     GameObject MainMenuButtons;
     GameObject LoadingPanel;
     GameObject CreateRoomPanel;
-    GameObject RoomPanel;
+    public GameObject LobbyPanel;
+    public GameObject RoomPanel;
     GameObject ErrorPanel;
     GameObject FindRoomPanel;
+    public TMP_InputField RoomInputField;
     TextMeshProUGUI LoadingText;
-    TextMeshProUGUI RoomNameText;
+    public TextMeshProUGUI RoomNameText;
     TextMeshProUGUI CreateRoomNameInputText;
     TextMeshProUGUI ErrorText;
     [SerializeField] private int maximumPlayers;
@@ -27,7 +29,9 @@ public class LobbyManager : Photon.Pun.MonoBehaviourPunCallbacks
     private string[] SecondName = { "Omr", "John", "Adam", "Alberto", "Karl" };
     private string[] LastName = { "Tesla", "Ricardo", "Newton", "Alsaedi", "Mero" };
 
-   
+    public RoomItem RoomItemPrefab;
+    List<RoomItem> RoomItemsList;
+    public Transform ContentObjerct;
 #region singleton
 public static LobbyManager instance;
     private void Awake()
@@ -39,15 +43,21 @@ public static LobbyManager instance;
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.JoinLobby();
     }
     #region PUN Callbacks
     public void OnCreateRoom(string RoomName)
     {
+        if(RoomInputField.text.Length >= 1)
+        {
+            PhotonNetwork.CreateRoom(RoomInputField.text, new RoomOptions(){MaxPlayers = 10});
+        }
+        
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = isOpen;
         roomOptions.IsVisible = isVisible;
         roomOptions.MaxPlayers = 20;
-        PhotonNetwork.CreateRoom(RoomName, roomOptions);
+       // PhotonNetwork.CreateRoom(RoomName, roomOptions);
         // PhotonNetwork.CreateRoom("RoomName");
     }
     private void JoinTheLobby()
@@ -80,6 +90,9 @@ public static LobbyManager instance;
 
     public override void OnJoinedRoom()
     {
+        LobbyPanel.SetActive(false);
+        RoomPanel.SetActive(true);
+        RoomNameText.text = "Room Name" + PhotonNetwork.CurrentRoom.Name;
        /* Dictionary<string, List<string>> PlayersName = new Dictionary<string, List<string>>();
 
         foreach (var Player in PlayersName)
@@ -98,7 +111,24 @@ public static LobbyManager instance;
 
     public override void OnRoomListUpdate(List<RoomInfo> RoomList)
     {
-        Debug.Log($"Room list Count = {RoomList.Count} ");
+        UpdateRoomList(RoomList);
+    }
+
+    void UpdateRoomList(List<RoomInfo> RooList)
+    {
+        foreach (RoomItem item in RoomItemsList)
+        {
+            Destroy(item.gameObject);
+        }
+
+        RoomItemsList.Clear();
+
+        foreach(RoomInfo room in RooList)
+        {
+            RoomItem NewRoom = Instantiate(RoomItemPrefab);
+            NewRoom.SetRoomName(room.Name);
+            RoomItemsList.Add(NewRoom);
+        }
     }
 
     
