@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -33,7 +34,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public void Quit()
     {
+        
         Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
+        
     }
 
 }
