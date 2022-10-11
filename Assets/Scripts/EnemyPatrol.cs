@@ -6,11 +6,13 @@ using UnityEngine;
 public class EnemyPatrol : MonoBehaviour
 {
     public Transform player;
+    PlayerHealth health;
     private NavMeshAgent NMAgent;
     [SerializeField]private float AttackRadius;
 
     void Start()
     {
+        health = GetComponent<PlayerHealth>();
         NMAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -22,5 +24,7 @@ public class EnemyPatrol : MonoBehaviour
             NMAgent.SetDestination(player.position);
         }
     }
+
     
+
 }
